@@ -5,7 +5,8 @@ const KoaRouter = require('koa-router');
 
 class KoaService {
 
-  constructor({config}) {
+  constructor({config, appdir}) {
+    this.appdir = appdir;
     this.app = new Koa();
   }
 
@@ -34,7 +35,7 @@ class KoaService {
    * DI for controllers
    */
   register() {
-    const base = './res/backkit-koa';
+    const base = `${this.appdir}/res/backkit-koa`;
     return require('fs').readdirSync(base).filter(file => file.endsWith('.js')).map(file => `${base}/${file}`);
   }
 }
