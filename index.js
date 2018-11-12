@@ -34,7 +34,7 @@ class KoaService {
    * DI for controllers
    */
   register() {
-    return require('fs').readdirSync('./res/backkitKoa').map(file => `./res/koa/${file}`);
+    return require('fs').readdirSync('./res/backkit-koa').map(file => `./res/koa/${file}`);
   }
 }
 
