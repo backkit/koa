@@ -35,7 +35,7 @@ class KoaService {
    * DI for controllers
    */
   register() {
-    const base = `${this.appdir}/res/backkit-koa`;
+    const base = `${this.appdir}/res/koa`;
     return require('fs').readdirSync(base).filter(file => file.endsWith('.js')).map(file => `${base}/${file}`);
   }
 }

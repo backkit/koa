@@ -50,7 +50,7 @@ const generate = (serviceName, moduleName, config) => {
 
 if (!skipAutoconf) {
   const packageJson = require('./package.json');
-  const serviceName = packageJson.name;
+  const serviceName = 'koa';
   const moduleName = packageJson.name;
   const defaultConf = {};
 
