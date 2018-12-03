@@ -5,8 +5,9 @@ const KoaBodyParser = require('koa-bodyparser');
 
 class KoaService {
 
-  constructor({config, appdir}) {
+  constructor({config, appdir, logger}) {
     this.appdir = appdir;
+    this.logger = logger;
     this.app = new Koa();
     this._initDone = false;
   }
@@ -32,7 +33,7 @@ class KoaService {
       });
 
       this.app.on('error', (err) => {
-        logger.error(err.message, {stack: err.stack});
+        thus.logger.error(err.message, {stack: err.stack});
       });
 
       // done
