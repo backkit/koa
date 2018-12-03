@@ -1,13 +1,44 @@
 const fs = require('fs');
 const Koa = require('koa');
-const KoaBody = require('koa-body');
 const KoaRouter = require('koa-router');
+const KoaBodyParser = require('koa-bodyparser');
 
 class KoaService {
 
   constructor({config, appdir}) {
     this.appdir = appdir;
     this.app = new Koa();
+    this._initDone = false;
+  }
+
+  /**
+   * Intialize core middleware
+   */
+  init() {
+    if (!this._initDone) {
+      // body parser
+      this.app.use(KoaBodyParser());
+
+      // error handler
+      this.app.use(async (ctx, next) => {
+        try {
+          await next();
+        } catch (err) {
+          ctx.status = err.status || 500;
+          ctx.type = 'application/json';
+          ctx.body = {err: err.message};
+          ctx.app.emit('error', err, ctx);
+        }
+      });
+
+      this.app.on('error', (err) => {
+        logger.error(err.message, {stack: err.stack});
+      });
+
+      // done
+      this._initDone = true;
+    }
+    return this;
   }
 
   /**
@@ -21,6 +52,7 @@ class KoaService {
    * Register new router
    */
   useRouter(router) {
+    this.init();
     this.app.use(router.routes());
   }
 
@@ -28,6 +60,7 @@ class KoaService {
    * Start http server
    */
   async run() {
+    this.init();
     this.app.listen(3000);
   }
 
