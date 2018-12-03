@@ -33,7 +33,7 @@ class KoaService {
       });
 
       this.app.on('error', (err) => {
-        thus.logger.error(err.message, {stack: err.stack});
+        this.logger.error(err.message, {stack: err.stack});
       });
 
       // done
