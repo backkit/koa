@@ -22,6 +22,8 @@
     "js-yaml": "^3.12.0",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0"
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.10.0",
+    "nanoid": "^2.0.0"
   }
 }

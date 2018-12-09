@@ -1,15 +1,21 @@
 const fs = require('fs');
-const Koa = require('koa');
-const KoaRouter = require('koa-router');
-const KoaBodyParser = require('koa-bodyparser');
+const session = require('koa-session')
+const router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
+const koa = require('koa');
 
 class KoaService {
 
+  /**
+   * Ctor
+   */
   constructor({config, appdir, logger}) {
     this.appdir = appdir;
     this.logger = logger;
-    this.app = new Koa();
+    this.app = new koa();
+    this.mw = [];
     this._initDone = false;
+    this.koaconf = config.get('koa');
   }
 
   /**
@@ -17,8 +23,35 @@ class KoaService {
    */
   init() {
     if (!this._initDone) {
+      // application secret key (used to encrypt cookies for example)
+      if (this.koaconf.keys) {
+        this.app.keys = this.koaconf.keys;
+      } else {
+        throw new Error("Please set koa's app keys as 'keys' array in koa.yml configuration file");
+      }
+
+      // may be required by other services (example: some passport strategies)
+      if (this.koaconf.session && this.koaconf.session.enable === true) {
+        // @see https://github.com/koajs/session
+        this.app.use(session({
+          key: 'session',
+          maxAge: 86400000, // session expires in 24h
+          autoCommit: true, // automatically commit headers (default true)
+          overwrite: true,  // can overwrite or not (default true)
+          httpOnly: true,   // httpOnly or not (default true)
+          signed: true,     // signed or not (default true)
+          rolling: false,   // Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. (default is false)
+          renew: false,     // renew session when session is nearly expired, so we can always keep user logged in. (default is false)
+        }, this.app));
+      }
+
       // body parser
-      this.app.use(KoaBodyParser());
+      this.app.use(bodyParser());
+      
+      // use 3rd party middleware
+      this.mw.forEach(el => {
+        this.app.use(el);
+      });
 
       // error handler
       this.app.use(async (ctx, next) => {
@@ -46,7 +79,7 @@ class KoaService {
    * Create new router
    */
   get router() {
-    return new KoaRouter();
+    return new router();
   }
 
   /**
@@ -55,6 +88,14 @@ class KoaService {
   useRouter(router) {
     this.init();
     this.app.use(router.routes());
+  }
+
+  /**
+   * Register 3rd party middleware
+   */
+  useMiddleware(mw) {
+    this.mw.push(mw);
+    return true;
   }
 
   /**

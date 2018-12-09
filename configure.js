@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const inquirer = require('inquirer');
 const yaml = require('js-yaml');
+const nanoid = require('nanoid');
 
 const skipPrompt = process.env.NO_INTERACTIVE || process.env.NO_PROMPT ? true : false;
 const skipAutoconf = process.env.NO_AUTOCONF ? true : false;
@@ -52,13 +53,33 @@ if (!skipAutoconf) {
   const packageJson = require('./package.json');
   const serviceName = 'koa';
   const moduleName = packageJson.name;
-  const defaultConf = {};
+  const defaultConf = {
+    keys: [nanoid()],
+    session: {
+      enable: true
+    }
+  };
 
   if (!skipPrompt) {
-    const questions = [];
+    const questions = [
+      {
+        type: 'confirm',
+        name: 'session_enable',
+        message: "enable session ?",
+        default: defaultConf.session.enable,
+        validate: function(value) {
+          return true;
+        }
+      }
+    ];
 
     inquirer.prompt(questions).then(conf => {
-      generate(serviceName, moduleName, conf);
+      generate(serviceName, moduleName, {
+        keys: defaultConf.keys,
+        session: {
+          enable: conf.session_enable
+        }
+      });
     });  
   } else {
     generate(serviceName, moduleName, defaultConf);
