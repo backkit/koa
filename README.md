@@ -59,3 +59,47 @@ class HelloController {
 module.exports = HelloController;
 
 ```
+
+## Use Passport.js
+
+First install `koa-passport`
+
+```
+npm install koa-passport --save
+```
+
+Initialize it `res/koa/passport.js`
+
+```
+const passport = require('koa-passport');
+
+module.exports = ({koa}) => {
+  ...
+  // initialize passport
+  koa.useMiddleware(passport.initialize())
+  koa.useMiddleware(passport.session())
+  ...
+}
+```
+
+then use it in your controller: `res/koa/hello.js`
+
+```
+class HelloController {
+
+  constructor({koa}) {
+    koa.useRouter(koa.router
+      .get('/', this.index.bind(this)));
+  }
+
+  async index(ctx, next) {
+    if (ctx.isAuthenticated()) {
+      ctx.body = "I am logged in";
+    } else {
+      ctx.body = "I am logged out";
+    }
+  }
+}
+
+module.exports = HelloController;
+```
