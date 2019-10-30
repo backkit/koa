@@ -14,6 +14,7 @@ class KoaService {
     this.logger = logger;
     this.app = new koa();
     this.mw = [];
+    this.rr = [];
     this._initDone = false;
     this.koaconf = config.get('koa');
   }
@@ -53,6 +54,11 @@ class KoaService {
         this.app.use(el);
       });
 
+      // use routes
+      this.rr.forEach(el => {
+        this.app.use(el.routes());
+      });
+
       // error handler
       this.app.use(async (ctx, next) => {
         try {
@@ -85,9 +91,9 @@ class KoaService {
   /**
    * Register new router
    */
-  useRouter(router) {
-    this.init();
-    this.app.use(router.routes());
+  useRouter(r) {
+    this.rr.push(r);
+    return this;
   }
 
   /**
@@ -95,7 +101,7 @@ class KoaService {
    */
   useMiddleware(mw) {
     this.mw.push(mw);
-    return true;
+    return this;
   }
 
   /**
