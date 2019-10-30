@@ -42,7 +42,7 @@ class HelloController {
     this.name = 'Koa';
     koa.useRouter(koa.router
       .get('/', this.index.bind(this))
-      .get('/hello', this.hello.bind(this));
+      .get('/hello', this.hello.bind(this)));
   }
 
   async index(ctx, next) {
