@@ -13,7 +13,7 @@ npm install https://github.com/backkit/koa.git \
 
 res/koa/hello.js
 
-```
+```js
 module.exports = ({koa}) => {
   // returns new koa router instance
   const router = koa.router;
@@ -35,7 +35,7 @@ module.exports = ({koa}) => {
 
 res/koa/hello.js
 
-```
+```js
 class HelloController {
 
   constructor({koa}) {
