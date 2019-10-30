@@ -2,8 +2,9 @@
 
 ## Install
 
-```
-npm install https://github.com/backkit/koa.git \
+```bash
+npm install https://github.com/backkit/kernel.git \
+            https://github.com/backkit/koa.git \
             https://github.com/backkit/config.git \
             https://github.com/backkit/winston.git --save
 
