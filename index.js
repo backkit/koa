@@ -17,6 +17,7 @@ class KoaService {
     this.rr = [];
     this._initDone = false;
     this.koaconf = config.get('koa');
+    this.port = this.koaconf.http && this.koaconf.http.port ? this.koaconf.http.port : 3000;
   }
 
   /**
@@ -109,7 +110,7 @@ class KoaService {
    */
   async run() {
     this.init();
-    this.app.listen(3000);
+    this.app.listen(this.port);
   }
 
   /**
