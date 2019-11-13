@@ -3,6 +3,7 @@ const session = require('koa-session')
 const router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const koa = require('koa');
+const MemorySessionStore = require(`${__dirname}/memory-session-store.js`);
 
 class KoaService {
 
@@ -18,6 +19,9 @@ class KoaService {
     this._initDone = false;
     this.koaconf = config.get('koa');
     this.port = this.koaconf.http && this.koaconf.http.port ? this.koaconf.http.port : 3000;
+    this._sessionStores = {
+      memory: MemorySessionStore
+    };
   }
 
   /**
@@ -36,6 +40,7 @@ class KoaService {
       if (this.koaconf.session && this.koaconf.session.enable === true) {
         // @see https://github.com/koajs/session
         this.app.use(session({
+          store: (this.koaconf.session.store && this._sessionStores[this.koaconf.session.store]) ? this._sessionStores[this.koaconf.session.store] : 'memory',
           key: 'session',
           maxAge: 86400000, // session expires in 24h
           autoCommit: true, // automatically commit headers (default true)
