@@ -40,7 +40,7 @@ class KoaService {
       if (this.koaconf.session && this.koaconf.session.enable === true) {
         // @see https://github.com/koajs/session
         this.app.use(session({
-          store: (this.koaconf.session.store && this._sessionStores[this.koaconf.session.store]) ? this._sessionStores[this.koaconf.session.store] : 'memory',
+          store: (this.koaconf.session.store && this._sessionStores[this.koaconf.session.store]) ? this._sessionStores[this.koaconf.session.store] : this._sessionStores['memory'],
           key: 'session',
           maxAge: 86400000, // session expires in 24h
           autoCommit: true, // automatically commit headers (default true)
