@@ -3,10 +3,10 @@
 ## Install
 
 ```bash
-npm install https://github.com/backkit/kernel.git \
-            https://github.com/backkit/koa.git \
-            https://github.com/backkit/config.git \
-            https://github.com/backkit/winston.git --save
+npm install @backkit/kernel.git \
+            @backkit/koa.git \
+            @backkit/config.git \
+            @backkit/winston.git --save
 
 ```
 
