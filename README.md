@@ -1,10 +1,37 @@
 # Koa service for backkit
 
-## Install
+## Interactive + Autoconf Install
 
-```bash
+Use this to generate custom configuration post install
+
+```shell
 npm install --foreground-scripts --progress false \
             @backkit/kernel \
+            @backkit/koa \
+            @backkit/config \
+            @backkit/winston --save
+
+```
+
+## Non-Interactive Install with Default Autoconf Install
+
+Use this to generate fast default configuration without prompt post install
+
+```shell
+npm install @backkit/kernel \
+            @backkit/koa \
+            @backkit/config \
+            @backkit/winston --save
+
+```
+
+## Non-Interactive Non-Autoconf Install
+
+Use this in production and CI
+
+```shell
+NO_AUTOCONF=y \
+npm install @backkit/kernel \
             @backkit/koa \
             @backkit/config \
             @backkit/winston --save
@@ -65,13 +92,13 @@ module.exports = HelloController;
 
 First install `koa-passport`
 
-```
+```shell
 npm install koa-passport --save
 ```
 
 Initialize it `res/koa/passport.js`
 
-```
+```js
 const passport = require('koa-passport');
 
 module.exports = ({koa}) => {
@@ -85,7 +112,7 @@ module.exports = ({koa}) => {
 
 then use it in your controller: `res/koa/hello.js`
 
-```
+```js
 class HelloController {
 
   constructor({koa}) {
@@ -104,3 +131,8 @@ class HelloController {
 
 module.exports = HelloController;
 ```
+
+## Links
+
+- [NPM Module](https://www.npmjs.com/package/@backkit/koa)
+- [Create new release](/backkit/koa/releases/new)
