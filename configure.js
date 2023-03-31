@@ -6,15 +6,15 @@ const nanoid = require('nanoid');
 
 
 const skipPrompt = process.env.NO_INTERACTIVE || process.env.NO_PROMPT || !process.env.npm_config_foreground_scripts || process.env.npm_config_foreground_scripts === 'false' ? true : false;
-const skipAutoconf = process.env.NO_AUTOCONF ? true : false;
+const skipAutoconf = process.env.NO_AUTOCONF || (__dirname === process.env.INIT_CWD) ? true : false;
 
 const generate = (serviceName, moduleName, config) => {
-  const serviceDir = `${__dirname}/../../services`;
-  const servicePath = `${__dirname}/../../services/${serviceName}.js`;
-  const configDir = `${__dirname}/../../config`;
-  const configPath = `${__dirname}/../../config/${serviceName}.yml`;
-  const resourceBaseDir = `${__dirname}/../../res`;
-  const resourceDir = `${__dirname}/../../res/${serviceName}`;
+  const serviceDir = `${process.env.INIT_CWD}${path.sep}services`;
+  const servicePath = `${process.env.INIT_CWD}${path.sep}services${path.sep}${serviceName}.js`;
+  const configDir = `${process.env.INIT_CWD}${path.sep}config`;
+  const configPath = `${process.env.INIT_CWD}${path.sep}config${path.sep}${serviceName}.yml`;
+  const resourceBaseDir = `${process.env.INIT_CWD}${path.sep}res`;
+  const resourceDir = `${process.env.INIT_CWD}${path.sep}res${path.sep}${serviceName}`;
 
   console.log("");
   console.log(`${serviceName} service config:`);
@@ -51,7 +51,7 @@ const generate = (serviceName, moduleName, config) => {
 };
 
 if (!skipAutoconf) {
-  const packageJson = require('./package.json');
+  const packageJson = require(`.${path.sep}package.json`);
   const serviceName = 'koa';
   const moduleName = packageJson.name;
   const defaultConf = {
