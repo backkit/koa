@@ -3,10 +3,11 @@
 ## Install
 
 ```bash
-npm install @backkit/kernel.git \
-            @backkit/koa.git \
-            @backkit/config.git \
-            @backkit/winston.git --save
+npm install --foreground-scripts --progress false \
+            @backkit/kernel \
+            @backkit/koa \
+            @backkit/config \
+            @backkit/winston --save
 
 ```
 

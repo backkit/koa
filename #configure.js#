@@ -4,11 +4,11 @@ const inquirer = require('inquirer');
 const yaml = require('js-yaml');
 const nanoid = require('nanoid');
 
-
-const skipPrompt = process.env.NO_INTERACTIVE || process.env.NO_PROMPT || !process.env.npm_config_foreground_scripts || process.env.npm_config_foreground_scripts === 'false' ? true : false;
+const skipPrompt = process.env.NO_INTERACTIVE || process.env.NO_PROMPT ? true : false;
 const skipAutoconf = process.env.NO_AUTOCONF ? true : false;
 
 const generate = (serviceName, moduleName, config) => {
+  
   const serviceDir = `${__dirname}/../../services`;
   const servicePath = `${__dirname}/../../services/${serviceName}.js`;
   const configDir = `${__dirname}/../../config`;
@@ -81,8 +81,7 @@ if (!skipAutoconf) {
           enable: conf.session_enable
         }
       });
-    });
-
+    });  
   } else {
     generate(serviceName, moduleName, defaultConf);
   }
