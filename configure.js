@@ -1,4 +1,4 @@
-const nanoid = require('nanoid');
+const nanoid = require('nanoid').nanoid;
 const autoconf = require("@backkit/autoconf");
 
 autoconf('koa')
