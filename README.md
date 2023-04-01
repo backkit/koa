@@ -1,5 +1,6 @@
 # Koa service for backkit
 
+
 ## Interactive + Autoconf Install
 
 Use this to generate custom configuration post install
@@ -135,4 +136,9 @@ module.exports = HelloController;
 ## Links
 
 - [NPM Module](https://www.npmjs.com/package/@backkit/koa)
-- [Create new release](/backkit/koa/releases/new)
+- [Create new release](https://github.com/backkit/koa/releases/new)
+
+
+[![https://nodei.co/npm/@backkit/koa?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/@backkit/koa.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/@backkit/koa)
+
+![GitHub CI](https://github.com/backkit/koa/actions/workflows/npm-publish-github-packages.yml/badge.svg)
