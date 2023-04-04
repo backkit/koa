@@ -36,8 +36,8 @@ npm install @backkit/kernel \
             @backkit/koa \
             @backkit/config \
             @backkit/winston --save
-
 ```
+For all of the above, use `clean-install` to reinstall existing packages
 
 ## Simple controller
 
